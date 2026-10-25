@@ -18,13 +18,18 @@
 
 ## 📌 Overview
 
-OASN1 is a security and privacy tool from the OwlSec suite.
+OASN1 decodes and checks ASN.1 data. It accepts DER, PEM, base64 or hex input, shows the full structure as a tree (including DER nested inside OCTET or BIT STRINGs), and runs a strict DER conformance linter. Its X.509 inspector reviews certificates, chains, keys, CSRs and CRLs and reports weaknesses.
 
 ---
 
 ## ✨ Features
 
-- Standalone executable, no Python installation needed.
+- Auto-detects DER, multi-block PEM, base64 and hex input from a file, the command line or stdin
+- Tree decoder with inline decoding of encapsulated DER and an openssl asn1parse-style view
+- Strict DER linter: non-minimal lengths and tags, padded INTEGERs, SET ordering, time formats, string charsets
+- X.509 inspector: chain order and signatures, validity, key strength, SAN, usages and fingerprints, with findings (expired, SHA-1/MD5, RSA < 2048, no SAN)
+- Key / CSR / CRL inspector (PKCS#1, PKCS#8, SEC1, PKIX) and OID lookup
+- BER → canonical DER re-encoder, extract by offset, an ASN.1 builder language and JSON tree export
 
 ---
 
@@ -38,8 +43,14 @@ OASN1 is a security and privacy tool from the OwlSec suite.
 ## 🚀 Usage
 
 ```bash
-./OASN1
+./OASN1                                      # interactive menu
+./OASN1 --decode cert.der --asn1parse
+./OASN1 --cert fullchain.pem
+./OASN1 --lint blob.der
+./OASN1 --oid 1.2.840.113549.1.1.11
 ```
+
+Run `./OASN1 --help` for the full list of options.
 
 ---
 
